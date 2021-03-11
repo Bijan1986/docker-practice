@@ -303,5 +303,14 @@ C:\Users\A182503
 λ docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ```
-test
+
+### EXERCISE
+:grey_question: Create a Postgres database container instance that will serve as the data tier of our application stack.Use environment variables to configure the container at runtime to use the following database credentials:
+> username: panoramic password: trekking
+>>Expected output 
+>>> CONTAINER ID  IMAGE         COMMAND                 CREATED
+  STATUS              PORTS               NAMES
+  >>>>29f115af8cdd  postgres:12   "docker-entrypoint.s…"  4 seconds ago
+  Up 2 seconds        5432/tcp            blissful_kapitsa
+
 

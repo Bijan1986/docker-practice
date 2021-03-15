@@ -312,6 +312,98 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
   STATUS              PORTS               NAMES
   >>>>29f115af8cdd  postgres:12   "docker-entrypoint.s…"  4 seconds ago
   Up 2 seconds        5432/tcp            blissful_kapitsa
+  
+:point_right:
+
+> To start the Postgres Docker container, first determine what environment variables are required to set the default username and password credentials for the database. Reading through the official Docker Hub page, you can see that you have configuration options for the POSTGRES_USER and POSTGRES_PASSWORD environment variables. Pass the environment variables using the -e flag. The final command to start our Postgres Docker container will be as follows:
+
+> docker run -itd -e "POSTGRES_USER=panoramic" -e "POSTGRES_PASSWORD=trekking" postgres:12
+
+:grey_question: Activity 1.02: Accessing the Panoramic Trekking App Database
+> Log in to the Postgres database container using the PSQL command-line utility.
+Once logged in to the database, return a list of databases in Postgres by default.
+Note
+
+>If you are not familiar with the PSQL CLI, the following is a list of reference commands to assist you with this activity:
+
+>Logging in: psql --username username --password
+
+>Listing the database: \l
+
+>Quitting the PSQL shell: \q
+
+:point_right:
+
+```
+//first log in 
+docker exec -it <containerID> psql --username panoramic --password
+
+// "\l" to display list of database
+
+C:\Users\A182503
+λ docker exec -it d2 psql --username panoramic --password
+Password:
+psql (12.6 (Debian 12.6-1.pgdg100+1))
+Type "help" for help.
+
+panoramic=# \l
+                                  List of databases
+   Name    |   Owner   | Encoding |  Collate   |   Ctype    |    Access privileges
+-----------+-----------+----------+------------+------------+-------------------------
+ panoramic | panoramic | UTF8     | en_US.utf8 | en_US.utf8 |
+ postgres  | panoramic | UTF8     | en_US.utf8 | en_US.utf8 |
+ template0 | panoramic | UTF8     | en_US.utf8 | en_US.utf8 | =c/panoramic           +
+           |           |          |            |            | panoramic=CTc/panoramic
+ template1 | panoramic | UTF8     | en_US.utf8 | en_US.utf8 | =c/panoramic           +
+           |           |          |            |            | panoramic=CTc/panoramic
+(4 rows)
+
+panoramic=#
+ // exit using "\q"
+ 
+panoramic=# \q
+```
 
 
 **XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXChapter 1 Completed XXXXXXXXXXXXXXXXXXXXXXXXXX**
+
+## CHAPTER 2 : GETTING STARTED WITH DOCKER FILES
+### DOCKER FILE
+
+:star: if you want to add comment to dockerfile then use **#**
+
+:red_circle:**# this is a comment**
+
+```
+# This is a comment
+DIRECTIVE argument
+```
+
+### COMMON DIRECTIVES IN DOCKERFILE
+These are few common directives
+1. FROM
+2. LABEL
+3. RUN
+4. CMD
+5. ENTRYPOINT
+
+
+**FROM**
+
+A Dockerfile usually starts with the FROM directive. This is used to specify the parent image of our custom Docker image. The parent image is the starting point of our custom Docker image. All the customization that we do will be applied on top of the parent image. The parent image can be an image from Docker Hub, such as Ubuntu, CentOS, Nginx, and MySQL. The FROM directive takes a valid image name and a tag as arguments. If the tag is not specified, the latest tag will be used.
+
+:red_circle:**FROM <image>:<tag> **
+
+```
+FROM ubuntu:20.04
+```
+Additionally, we can use the base image if we need to build a Docker image from scratch. The base image, known as the scratch image, is an empty image mostly used to build other parent images.
+
+In the following FROM directive, we are using the scratch image to build our custom Docker image from scratch:
+
+```
+FROM scratch
+```
+**LABEL**
+
+

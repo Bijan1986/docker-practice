@@ -406,4 +406,70 @@ FROM scratch
 ```
 **LABEL**
 
+A LABEL is a key-value pair that can be used to add metadata to a Docker image. These labels can be used to organize the Docker images properly. An example would be to add the name of the author of the Dockerfile or the version of the Dockerfile.
 
+A LABEL directive has the following format:
+
+:red_circle: **LABEL key = value**
+
+if you want to view labels then try **docker image inspect image-id**
+
+```
+
+LABEL maintainer=sathsara@mydomain.com
+LABEL version=1.0
+LABEL environment=dev
+
+or you can write it like so 
+
+LABEL maintainer=sathsara@mydomain.com version=1.0 environment=dev
+
+```
+
+**RUN**
+
+run directive is used to execute command during the image build time. This will create a new layer on top of the existing layer, execute the specified command, and commit the results to the newly created layer. The RUN directive can be used to install the required packages, update the packages, create users and groups, and so on.
+
+The RUN directive takes the following format:
+
+:red_circle: **RUN command**
+
+```
+RUN apt-get update
+RUN apt-get install nginx -y
+
+ or you can write as 
+ 
+ RUN apt-get update && apt-get install nginx -y
+```
+
+**CMD**
+
+A Docker container is normally expected to run one process. A CMD directive is used to provide this default initialization command that will be executed when a container is created from the Docker image. A Dockerfile can execute only one CMD directive. If there is more than one CMD directive in the Dockerfile, Docker will execute only the last one.
+
+```
+CMD ["executable","param1","param2","param3", ...]
+
+CMD ["echo","Hello World"]
+
+$ docker container run <image>
+Hello World
+
+
+```
+
+**ENTRYPOINT**
+
+Similar to the CMD directive, the ENTRYPOINT directive is also used to provide this default initialization command that will be executed when a container is created from the Docker image. The difference between the CMD directive and the ENTRYPOINT directive is that, unlike the CMD directive, we cannot override the ENTRYPOINT command using the command-line parameters sent with the docker container run command.
+
+> **The --entrypoint flag can be sent with the docker container run command to override the default ENTRYPOINT of the image.**
+
+```
+
+# This is my first Docker image
+FROM ubuntu 
+LABEL maintainer=sathsara@mydomain.com 
+RUN apt-get update
+CMD ["The Docker Workshop"]
+ENTRYPOINT ["echo", "You are reading"]
+```

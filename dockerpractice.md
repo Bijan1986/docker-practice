@@ -538,10 +538,32 @@ C:\DEV\practice\DockerFinal\custom-docker-image (master)
  
 Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
 
-
 ```
 
+now if we try to see images, we can see below
 
+```bash
+C:\DEV\practice\DockerFinal\custom-docker-image (master)
+λ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+<none>       <none>    9bb746264d02   3 minutes ago   103MB
+ubuntu       latest    fb52e22af1b0   10 hours ago    72.8MB
+```
+we can see that the images have no tag name and Repository name .
+
+lets add it .
+
+```bash
+C:\DEV\practice\DockerFinal\custom-docker-image (master)
+λ docker image tag 9bb myfirstimage:1.0
+
+C:\DEV\practice\DockerFinal\custom-docker-image (master)
+λ docker images
+REPOSITORY     TAG       IMAGE ID       CREATED          SIZE
+myfirstimage   1.0       9bb746264d02   12 minutes ago   103MB
+ubuntu         latest    fb52e22af1b0   10 hours ago     72.8MB
+
+```
 
 
 

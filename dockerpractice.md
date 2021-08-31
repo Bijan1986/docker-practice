@@ -387,30 +387,39 @@ These are few common directives
 4. CMD
 5. ENTRYPOINT
 
+***
+**1. FROM** DIRECTIVE
+***
+1. A Dockerfile usually starts with the FROM directive. 
+2. This is used to specify the parent image of our custom Docker image. 
+    a. The parent image is the starting point of our custom Docker image. 
+    b. All the customization that we do will be applied on top of the parent image. The parent image can be an image from Docker Hub, such as Ubuntu, CentOS, Nginx, and MySQL. 
+    
+ 3. The FROM directive takes a valid image name and a tag as arguments. If the tag is not specified, the latest tag will be used.
 
-**FROM**
-
-A Dockerfile usually starts with the FROM directive. This is used to specify the parent image of our custom Docker image. The parent image is the starting point of our custom Docker image. All the customization that we do will be applied on top of the parent image. The parent image can be an image from Docker Hub, such as Ubuntu, CentOS, Nginx, and MySQL. The FROM directive takes a valid image name and a tag as arguments. If the tag is not specified, the latest tag will be used.
-
-:red_circle:**FROM <image>:<tag> **
+:red_circle:**SYNTAX image:tag**
 
 ```
 FROM ubuntu:20.04
 ```
-Additionally, we can use the base image if we need to build a Docker image from scratch. The base image, known as the scratch image, is an empty image mostly used to build other parent images.
+Additionally, we can use the base image if we need to build a Docker image from scratch. The base image, known as the **scratch** image, is an empty image mostly used to build other parent images.
 
-In the following FROM directive, we are using the scratch image to build our custom Docker image from scratch:
+In the following ***FROM*** directive, we are using the scratch image to build our custom Docker image from scratch:
 
 ```
 FROM scratch
 ```
-**LABEL**
+***
+**2. LABEL** DIRECTIVE
+***
 
-A LABEL is a key-value pair that can be used to add metadata to a Docker image. These labels can be used to organize the Docker images properly. An example would be to add the name of the author of the Dockerfile or the version of the Dockerfile.
+1. A LABEL is a key-value pair that can be used to add metadata to a Docker image. 
+
+2. These labels can be used to organize the Docker images properly. An example would be to add the name of the author of the Dockerfile or the version of the Dockerfile.
 
 A LABEL directive has the following format:
 
-:red_circle: **LABEL key = value**
+:red_circle: **SYNTAX key = value**
 
 if you want to view labels then try **docker image inspect image-id**
 
@@ -425,10 +434,18 @@ or you can write it like so
 LABEL maintainer=sathsara@mydomain.com version=1.0 environment=dev
 
 ```
+***
+**3. RUN** DIRECTIVE
+***
 
-**RUN**
+1. Run directive is used to execute command during the **image build time**. 
 
-run directive is used to execute command during the image build time. This will create a new layer on top of the existing layer, execute the specified command, and commit the results to the newly created layer. The RUN directive can be used to install the required packages, update the packages, create users and groups, and so on.
+2. This will create a new layer on top of the existing layer, execute the specified command, and commit the results to the newly created layer. 
+
+3. The RUN directive can be used to install the required packages, update the packages, create users and groups, and so on.
+
+4. A docker file can have multiple RUN directive .
+
 
 The RUN directive takes the following format:
 
@@ -443,9 +460,15 @@ RUN apt-get install nginx -y
  RUN apt-get update && apt-get install nginx -y
 ```
 
-**CMD**
+***
+**4. CMD** DIRECTIVE
+***
 
-A Docker container is normally expected to run one process. A CMD directive is used to provide this default initialization command that will be executed when a container is created from the Docker image. A Dockerfile can execute only one CMD directive. If there is more than one CMD directive in the Dockerfile, Docker will execute only the last one.
+1. A Docker container is normally expected to run one process. A CMD directive is used to provide this default initialization command that will be **executed when a container is created from the Docker image**.
+
+2. A Docker file can execute only one CMD directive. 
+
+3. If there is more than one CMD directive in the Dockerfile, Docker will execute only the last one.
 
 ```
 CMD ["executable","param1","param2","param3", ...]
@@ -458,9 +481,13 @@ Hello World
 
 ```
 
-**ENTRYPOINT**
+***
+**5. ENTRYPOINT** DIRECTIVE
+***
 
-Similar to the CMD directive, the ENTRYPOINT directive is also used to provide this default initialization command that will be executed when a container is created from the Docker image. The difference between the CMD directive and the ENTRYPOINT directive is that, unlike the CMD directive, we cannot override the ENTRYPOINT command using the command-line parameters sent with the docker container run command.
+1. Similar to the CMD directive, the ENTRYPOINT directive is also used to provide this default initialization command that will be executed when a container is created from the Docker image. 
+
+2. The difference between the CMD directive and the ENTRYPOINT directive is that, unlike the CMD directive, we cannot override the ENTRYPOINT command using the command-line parameters sent with the docker container run command.
 
 > **The --entrypoint flag can be sent with the docker container run command to override the default ENTRYPOINT of the image.**
 
@@ -473,3 +500,49 @@ RUN apt-get update
 CMD ["The Docker Workshop"]
 ENTRYPOINT ["echo", "You are reading"]
 ```
+
+### Building Docker Images
+
+lets try to build the docker image from the above mentioned Dockerfile .
+
+if Docker image is a class then container is the object .
+
+> **All the layers in the Docker image are read only** .
+>
+> Once we create the container from the image, a new writable layer is created on top of the existing layer .
+
+
+To build a docker image we need to run the below command inside the directory where we have created the Dockefile .
+
+:red_circle: **SYNTAX** docker image build context
+
+```shell
+docker image build <context>
+
+// to run the docker file that we have 
+C:\DEV\practice\DockerFinal (master)
+λ ls
+custom-docker-image/  dockerpractice.md
+
+C:\DEV\practice\DockerFinal (master)
+λ cd custom-docker-image\
+
+C:\DEV\practice\DockerFinal\custom-docker-image (master)
+λ ls
+Dockerfile
+
+C:\DEV\practice\DockerFinal\custom-docker-image (master)
+λ docker build .
+[+] Building 98.4s (6/6) FINISHED
+ => [internal] load build definition from Dockerfile 
+ 
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+
+
+```
+
+
+
+
+
+
